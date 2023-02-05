@@ -30,7 +30,6 @@ searchBtn.on(`click`, function (event) {
         method: `GET`
     }).then(function (response) {
         
-        console.log(response[0].name + `, ` + response[0].country);
         for (i = 0; i < 3; i++) {
 
             // Creates button and changes button text
@@ -40,10 +39,15 @@ searchBtn.on(`click`, function (event) {
             locationName.text(response[i].name + `, `  + response[i].country)
             history.append(locationName);
             locationNameLat = response[i].lat;
+            localStorage.setItem('latData', locationNameLat);
             locationNameLon = response[i].lon;
+            localStorage.setItem(locationNameLon + [i])
+
         }
     });
 });
+
+let latData = localStorage.getItem('latData');
 
 
 // console.log(response[0].name);
