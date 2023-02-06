@@ -45,23 +45,26 @@ searchBtn.on(`click`, function (event) {
             locationName.attr(`id`, userSearch[i]);
             locationName.text(response[i].name + `, ` + response[i].country);
             history.prepend(locationName);
-            let locationNameLat = response[i].lat;
-            localStorage.setItem('latData' + [i + 1], locationNameLat);
-            let locationNameLon = response[i].lon;
-            localStorage.setItem(`lonData`, locationNameLon);
-            localStorage.setItem(`i`, i);
+            // let locationNameLat = response[i].lat;
+            // localStorage.setItem('latData' + [i + 1], locationNameLat);
+            // let locationNameLon = response[i].lon;
+            // localStorage.setItem(`lonData`, locationNameLon);
+            // localStorage.setItem(`i`, i);
 
 
         }
     });
 });
 
-userSearch.forEach(function())
+let city = localStorage.getItem(`responseData`);
+let cityData = JSON.parse(city);
+console.log(cityData)
+userSearch.forEach(function(){
+    
+})
 
 locationName.on(`click`, function (event) {
     event.preventDefault();
-    const lat = localStorage.getItem(`latdata` + i);
-    const lon = localStorage.getItem(`lonData1` + i);
     let queryURL = (`api.openweathermap.org/data/2.5/forecast?lat=` + lat + `&lon=` + lon * `&appid=` + APIKey);
     console.log(lat);
     console.log(lon);
