@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const APIKey = `436b24e0d7bd611aac594cd2b661224e`;
 
 const searchValue = $(`#search-input`);
@@ -95,3 +96,6 @@ locationName.on(`click`, function (event) {
     // console.log(response)
     // console.log(json.stringify(response));
 // }
+
+=======
+>>>>>>> parent of e7867c0 (managed to get ajax to function, 3 buttons are now created with city names and country codes as text values, also stored indiviual latitude and longitude for each button. Will now attempt to use local storage to store and retrieve items outside of the .then function)
