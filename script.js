@@ -15,7 +15,6 @@ let searchBtnCounter = 0;
 searchBtn.on(`click`, function (event) {
     event.preventDefault();
     let searchTerm = searchValue.val();
-    userSearch.push(searchTerm)
 
     let queryURL = (`http://api.openweathermap.org/geo/1.0/direct?q=` + searchTerm + limit + `&appid=` + APIKey);
 
@@ -27,8 +26,19 @@ searchBtn.on(`click`, function (event) {
         let responseData = (JSON.stringify(response));
         localStorage.setItem(`responseData`, responseData)
         searchBtnCounter++;
-        // createBtn();
 
+        userSearch.push({
+            city: searchValue.val(),
+            lat: response[0].lat,
+            lon: response[0].lon
+        })
+
+        userSearch.forEach(function(singleSearch) {
+            console.log(singleSearch);
+
+        })
+
+        console.log(userSearch);
 
         // if (searchBtnCounter !== 0) {
         //     $(`#placeholderWeather`).empty();
@@ -37,44 +47,30 @@ searchBtn.on(`click`, function (event) {
         // push user input into usersearch array
         //TODO: search push function to push all searched cities to the end of the userSearch array
         // TODO: Find out how to push 2d arrays 
-        for (let i = 0; i < userSearch.length; i++) {
 
             // Creates button and changes button text
             locationName = $(`<button>`);
             locationName.attr(`class`, `locationResult`);
-            locationName.attr(`id`, userSearch[i]);
-            locationName.text(response[i].name + `, ` + response[i].country);
+            locationName.attr(`name`, response[0].name);
+            locationName.attr(`lat`, response[0].lat);
+            locationName.attr(`lon`, response[0].lon);
+            locationName.text(response[0].name + `, ` + response[0].country);
             history.prepend(locationName);
-            // let locationNameLat = response[i].lat;
-            // localStorage.setItem('latData' + [i + 1], locationNameLat);
-            // let locationNameLon = response[i].lon;
-            // localStorage.setItem(`lonData`, locationNameLon);
-            // localStorage.setItem(`i`, i);
 
-
-        }
     });
 });
 
-let city = localStorage.getItem(`responseData`);
-let cityData = JSON.parse(city);
-console.log(cityData)
-let cityLon = cityData[i].lon
-let cityLat = cityData[i].lat
-userSearch.forEach(function () {
-    cityInfo: {
-        name: cityData.name
-        latitude: cityLat
-        longitude: cityLon
-    }
-})
+// let city = localStorage.getItem(`responseData`);
+// let cityData = JSON.parse(city);
+// console.log(cityData)
+// let cityLon = cityData[0].lon
+// let cityLat = cityData[0].lat
 
 locationName.on(`click`, function (event) {
     event.preventDefault();
+
     let queryURL = (`api.openweathermap.org/data/2.5/forecast?lat=` + lat + `&lon=` + lon * `&appid=` + APIKey);
-    console.log(lat);
-    console.log(lon);
-    console.log(locationName);
+
     $.ajax({
         url: queryURL,
         method: `GET`
@@ -84,24 +80,9 @@ locationName.on(`click`, function (event) {
     });
 })
 
+function showWeather(event) { 
+event.target.onclick
+
+
 // accesses longitude and latitude for each created button
-// TODO: May need to be in arrays
-// let createBtn = function () {
-
-
-    //     for (let i = 0; i < userSearch.length; i++) {
-
-    //         // Creates button and changes button text
-    //         locationName = $(`<button>`);
-    //         locationName.attr(`class`, `locationResult`);
-    //         locationName.attr(`id`, userSearch[i]);
-    //         locationName.text(response[i].name + `, ` + response[i].country);
-    //         history.prepend(locationName);
-    //         let locationNameLat = response[i].lat;
-    //         localStorage.setItem('latData' + [i], locationNameLat);
-    //         let locationNameLon = response[i].lon;
-    //         localStorage.setItem(`lonData` + [i], locationNameLon);
-    // console.log(response)
-    // console.log(json.stringify(response));
-// }
 
