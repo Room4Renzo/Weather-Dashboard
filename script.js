@@ -13,6 +13,14 @@ let i = localStorage.getItem(`i`)
 let locationName = $(userSearch[i]);
 let searchBtnCounter = 0;
 
+
+
+
+
+
+
+
+
 searchBtn.on(`click`, function (event) {
     event.preventDefault();
     let searchTerm = searchValue.val();
@@ -24,8 +32,8 @@ searchBtn.on(`click`, function (event) {
         url: queryURL,
         method: `GET`
     }).then(function (response) {
-        let responseData = (JSON.stringify(response));
-        localStorage.setItem(`responseData`, responseData)
+        let locationData = (JSON.stringify(response));
+        localStorage.setItem(`locationData`, locationData)
         searchBtnCounter++;
 
         userSearch.push({
@@ -58,8 +66,9 @@ userSearch.forEach(function (singleSearch) {
 
 })
 
-localStorage.getItem(responseData)
-let locationLat = responseData
+localStorage.getItem(`locationData`)
+let locationData = (JSON.parse(`locationData`));
+console.log(locationData)
 
 function showWeather(event) {
     if (event.target.className === `btn`) {
