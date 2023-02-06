@@ -5,6 +5,7 @@ const searchBtn = $(`#search-button`);
 const limit = `&limit=1`;
 const history = $(`#history`);
 // Hardcode Limit? To what?
+let buttons = $(`.btn`);
 
 
 let userSearch = [];
@@ -33,13 +34,6 @@ searchBtn.on(`click`, function (event) {
             lon: response[0].lon
         })
 
-        userSearch.forEach(function(singleSearch) {
-            console.log(singleSearch);
-
-        })
-
-        console.log(userSearch);
-
         // if (searchBtnCounter !== 0) {
         //     $(`#placeholderWeather`).empty();
         // };
@@ -48,25 +42,32 @@ searchBtn.on(`click`, function (event) {
         //TODO: search push function to push all searched cities to the end of the userSearch array
         // TODO: Find out how to push 2d arrays 
 
-            // Creates button and changes button text
-            locationName = $(`<button>`);
-            locationName.attr(`class`, `locationResult`);
-            locationName.attr(`name`, response[0].name);
-            locationName.attr(`lat`, response[0].lat);
-            locationName.attr(`lon`, response[0].lon);
-            locationName.text(response[0].name + `, ` + response[0].country);
-            history.prepend(locationName);
+        // Creates button and changes button text
+        locationName = $(`<button>`);
+        locationName.attr(`class`, `btn`);
+        locationName.attr(`name`, response[0].name);
+        locationName.attr(`lat`, response[0].lat);
+        locationName.attr(`lon`, response[0].lon);
+        locationName.text(response[0].name + `, ` + response[0].country);
+        history.prepend(locationName);
 
     });
 });
+userSearch.forEach(function (singleSearch) {
+    console.log(singleSearch);
 
-// let city = localStorage.getItem(`responseData`);
-// let cityData = JSON.parse(city);
-// console.log(cityData)
-// let cityLon = cityData[0].lon
-// let cityLat = cityData[0].lat
+})
 
-locationName.on(`click`, function (event) {
+localStorage.getItem(responseData)
+let locationLat = responseData
+
+function showWeather(event) {
+    if (event.target.className === `btn`) {
+        console.log(`It worked!`)
+    }
+}
+
+buttons.on(`click`, function (event) {
     event.preventDefault();
 
     let queryURL = (`api.openweathermap.org/data/2.5/forecast?lat=` + lat + `&lon=` + lon * `&appid=` + APIKey);
@@ -76,12 +77,10 @@ locationName.on(`click`, function (event) {
         method: `GET`
     }).then(function (response) {
         console.log(response)
+        showWeather();
 
     });
 })
-
-function showWeather(event) { 
-event.target.onclick
 
 
 // accesses longitude and latitude for each created button
