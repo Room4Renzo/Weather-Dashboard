@@ -16,10 +16,10 @@ searchBtn.on(`click`, function (event) {
     event.preventDefault();
     let searchTerm = searchValue.val();
     userSearch.push(searchTerm)
-    
+
     let queryURL = (`http://api.openweathermap.org/geo/1.0/direct?q=` + searchTerm + limit + `&appid=` + APIKey);
-    
-    
+
+
     $.ajax({
         url: queryURL,
         method: `GET`
@@ -28,8 +28,8 @@ searchBtn.on(`click`, function (event) {
         localStorage.setItem(`responseData`, responseData)
         searchBtnCounter++;
         // createBtn();
-        
-        
+
+
         // if (searchBtnCounter !== 0) {
         //     $(`#placeholderWeather`).empty();
         // };
@@ -38,7 +38,7 @@ searchBtn.on(`click`, function (event) {
         //TODO: search push function to push all searched cities to the end of the userSearch array
         // TODO: Find out how to push 2d arrays 
         for (let i = 0; i < userSearch.length; i++) {
-            
+
             // Creates button and changes button text
             locationName = $(`<button>`);
             locationName.attr(`class`, `locationResult`);
@@ -59,8 +59,14 @@ searchBtn.on(`click`, function (event) {
 let city = localStorage.getItem(`responseData`);
 let cityData = JSON.parse(city);
 console.log(cityData)
-userSearch.forEach(function(){
-    
+let cityLon = cityData[i].lon
+let cityLat = cityData[i].lat
+userSearch.forEach(function () {
+    cityInfo: {
+        name: cityData.name
+        latitude: cityLat
+        longitude: cityLon
+    }
 })
 
 locationName.on(`click`, function (event) {
