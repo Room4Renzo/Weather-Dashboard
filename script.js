@@ -37,7 +37,6 @@ function searchWeather(cityName) {
             method: `GET`
         }).then(function (response) {
 
-            console.log(response);
             userSearch.push(cityName);
             let locationName = $(`<button>`);
             locationName.attr(`class`, `btn`);
@@ -61,12 +60,14 @@ function searchWeather(cityName) {
                         url:historyForecastURL,
                         method: `GET`
                     }).then(function(response){
-                        dailyWeather(response);
                         let temp = response.list[0].main.temp
                         let wind = response.list[0].wind.speed
                         let humidity = response.list[0].main.humidity
                         let date = moment()
                         let iconsrc = response.list[0].weather[0].icon
+                        let mainIcon =  `http://openweathermap.org/img/wn/` + iconsrc + `@2x.png`
+                        dailyIcon =  `http://openweathermap.org/img/wn/` + iconsrc + `.png`
+                        dailyWeather(response);
                     });
                 });
             });
@@ -172,28 +173,4 @@ function dailyWeather (response) {
     // userSearch.forEach(function (singleSearch) {
     //     console.log(singleSearch);
 
-    // })
 
-    // localStorage.getItem(`locationData`)
-    // let locationData = (JSON.parse(`locationData`));
-    // console.log(locationData)
-
-    // function showWeather(event) {
-    //     if (event.target.className === `btn`) {
-    //         console.log(`It worked!`)
-    //     }
-    // }
-
-    // buttons.on(`click`, function (event) {
-    //     event.preventDefault();
-
-
-    //     console.log(response)
-    //     showWeather();
-
-    // });
-
-
-
-    // accesses longitude and latitude for each created button
-// })
