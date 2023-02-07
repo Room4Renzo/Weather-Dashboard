@@ -14,7 +14,7 @@ let locationName = $(userSearch[i]);
 // TODO: prevent same city button from being created
 let searchBtnCounter = 0;
 
-// On search enter || click prevent default (refresh), store search value in variable called cityName, add it and globally defined variables to geo API call. Store lat and lon in their own variables
+// On search enter || click prevent default (refresh), store search value in variable called cityName, add it and globally defined variables to geo API call. Store lat and lon in their own variables.
 searchBtn.on(`click`, function (event) {
     event.preventDefault();
     searchWeather(searchValue.val());
@@ -60,6 +60,7 @@ function searchWeather(cityName) {
                         url:historyForecastURL,
                         method: `GET`
                     }).then(function(response){
+                        console.log(response)
                         let tempData = response.list[0].main.temp;
                         let windData = response.list[0].wind.speed;
                         let humidityData = response.list[0].main.humidity;
@@ -67,7 +68,46 @@ function searchWeather(cityName) {
                         let iconsrc = response.list[0].weather[0].icon;
                         let mainIcon =  (`http://openweathermap.org/img/wn/` + iconsrc + `@2x.png`)
                         let dailyIcon =  (`http://openweathermap.org/img/wn/` + iconsrc + `.png`)
-                        dailyWeather();
+
+                        let dailyCard = $(`<div>`);
+                        let mainCard = $(`<div>`)
+                        let title = $(`<h1>`)
+                        let temp = $(`<p>`);
+                        let wind = $(`<p>`);
+                        let humidity = $(`<p>`);
+                        let date = $(`<p>`);
+                        let iconMain = $(`<img>`)
+                        let iconDaily = $(`<img>`)
+                    
+                        title.text(locationName + date + iconMain);
+                        temp.text(tempData);
+                        wind.text(windData = (JSON.stringify));
+                        humidity.text(humidityData);
+                        date.text(dateNow);
+                        iconMain.attr({src: mainIcon});
+                        iconDaily.attr({src: dailyIcon});    
+                    
+                        today.append(mainCard);
+                        mainCard.prepend(title);
+                        title.append(date);
+                        title.append(iconMain);
+                        iconMain = mainIcon;
+                    
+                        mainCard.append(temp);
+                        mainCard.append(wind);
+                        mainCard.append(humidity);
+                        mainCard.attr({id: `mainCard`})
+                    
+                        forecast.append(dailyCard);
+                        dailyCard.prepend(date);
+                        dailyCard.append(iconDaily);
+                        dailyCard.append(temp);
+                        dailyCard.append(wind);
+                        dailyCard.append(humidity);
+                        dailyCard.attr({"class": `card`});
+
+                        console.log(wind.text)
+                    
                     });
                 });
             });
@@ -80,44 +120,44 @@ function searchWeather(cityName) {
 
 
 // function to create cards and match callback data to variables
-function dailyWeather () {
-    let dailyCard = $(`<div>`);
-    let mainCard = $(`<div>`)
-    let title = $(`<h1>`)
-    let temp = $(`<p>`);
-    let wind = $(`<p>`);
-    let humidity = $(`<p>`);
-    let date = $(`<p>`);
-    let iconMain = $(`<img>`)
-    let iconDaily = $(`<img>`)
+// function dailyWeather () {
+//     let dailyCard = $(`<div>`);
+//     let mainCard = $(`<div>`)
+//     let title = $(`<h1>`)
+//     let temp = $(`<p>`);
+//     let wind = $(`<p>`);
+//     let humidity = $(`<p>`);
+//     let date = $(`<p>`);
+//     let iconMain = $(`<img>`)
+//     let iconDaily = $(`<img>`)
 
-    title.text(cityName + date + iconMain);
-    temp.text(tempData);
-    wind.text(windData);
-    humidity.text(windData);
-    date.text(dateNow);
-    iconMain.attr({src: mainIcon});
-    iconDaily.attr({src: dailyIcon});    
+//     title.text(locationName + date + iconMain);
+//     temp.text(tempData);
+//     wind.text(windData);
+//     humidity.text(windData);
+//     date.text(dateNow);
+//     iconMain.attr({src: mainIcon});
+//     iconDaily.attr({src: dailyIcon});    
 
-    today.append(mainCard);
-    mainCard.prepend(title);
-    title.append(date);
-    title.append(icon);
-    iconMain = mainIcon;
+//     today.append(mainCard);
+//     mainCard.prepend(title);
+//     title.append(date);
+//     title.append(icon);
+//     iconMain = mainIcon;
 
-    mainCard.append(temp);
-    mainCard.append(wind);
-    mainCard.append(humidity);
-    mainCard.attr({id: `mainCard`})
+//     mainCard.append(temp);
+//     mainCard.append(wind);
+//     mainCard.append(humidity);
+//     mainCard.attr({id: `mainCard`})
 
-    forecast.append(dailyCard);
-    dailyCard.prepend(date);
-    dailyCard.append(iconDaily);
-    dailyCard.append(temp);
-    dailyCard.append(wind);
-    dailyCard.append(humidity);
-    dailyCard.attr({"class": `card`});
-}
+//     forecast.append(dailyCard);
+//     dailyCard.prepend(date);
+//     dailyCard.append(iconDaily);
+//     dailyCard.append(temp);
+//     dailyCard.append(wind);
+//     dailyCard.append(humidity);
+//     dailyCard.attr({"class": `card`});
+// }
 
 // searchBtn.on(`click`, function (event) {
 // event.preventDefault();
