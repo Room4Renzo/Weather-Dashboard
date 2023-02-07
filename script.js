@@ -11,9 +11,10 @@ let buttons = $(`.btn`);
 let userSearch = [];
 let i = localStorage.getItem(`i`)
 let locationName = $(userSearch[i]);
+// TODO: prevent same city button from being created
 let searchBtnCounter = 0;
 
-
+// On search enter || click prevent default (refresh), store search value in variable called cityName, add it and globally defined variables to geo API call. Store lat and lon in their own variables
 searchBtn.on(`click`, function (event) {
     event.preventDefault();
     searchWeather(searchValue.val());
@@ -43,7 +44,6 @@ function searchWeather(cityName) {
             locationName.text(cityName);
             locationName.on(`click`, function (event) {
 
-                console.log(event.target.textContent);
                 let historyGeoURL = (`https://api.openweathermap.org/geo/1.0/direct?q=` + (event.target.textContent) + limit + `&appid=` + APIKey);
 
                 $.ajax({
@@ -60,14 +60,14 @@ function searchWeather(cityName) {
                         url:historyForecastURL,
                         method: `GET`
                     }).then(function(response){
-                        let temp = response.list[0].main.temp
-                        let wind = response.list[0].wind.speed
-                        let humidity = response.list[0].main.humidity
-                        let date = moment()
-                        let iconsrc = response.list[0].weather[0].icon
-                        let mainIcon =  `http://openweathermap.org/img/wn/` + iconsrc + `@2x.png`
-                        dailyIcon =  `http://openweathermap.org/img/wn/` + iconsrc + `.png`
-                        dailyWeather(response);
+                        let tempData = response.list[0].main.temp;
+                        let windData = response.list[0].wind.speed;
+                        let humidityData = response.list[0].main.humidity;
+                        let dateNow = moment()._d;
+                        let iconsrc = response.list[0].weather[0].icon;
+                        let mainIcon =  (`http://openweathermap.org/img/wn/` + iconsrc + `@2x.png`)
+                        let dailyIcon =  (`http://openweathermap.org/img/wn/` + iconsrc + `.png`)
+                        dailyWeather();
                     });
                 });
             });
@@ -80,7 +80,7 @@ function searchWeather(cityName) {
 
 
 // function to create cards and match callback data to variables
-function dailyWeather (response) {
+function dailyWeather () {
     let dailyCard = $(`<div>`);
     let mainCard = $(`<div>`)
     let title = $(`<h1>`)
@@ -88,12 +88,23 @@ function dailyWeather (response) {
     let wind = $(`<p>`);
     let humidity = $(`<p>`);
     let date = $(`<p>`);
-    let icon = $(`<img>`)
+    let iconMain = $(`<img>`)
+    let iconDaily = $(`<img>`)
+
+    title.text(cityName + date + iconMain);
+    temp.text(tempData);
+    wind.text(windData);
+    humidity.text(windData);
+    date.text(dateNow);
+    iconMain.attr({src: mainIcon});
+    iconDaily.attr({src: dailyIcon});    
 
     today.append(mainCard);
     mainCard.prepend(title);
     title.append(date);
     title.append(icon);
+    iconMain = mainIcon;
+
     mainCard.append(temp);
     mainCard.append(wind);
     mainCard.append(humidity);
@@ -101,15 +112,11 @@ function dailyWeather (response) {
 
     forecast.append(dailyCard);
     dailyCard.prepend(date);
-    dailyCard.append(icon);
+    dailyCard.append(iconDaily);
     dailyCard.append(temp);
     dailyCard.append(wind);
     dailyCard.append(humidity);
     dailyCard.attr({"class": `card`});
-
-
-
-
 }
 
 // searchBtn.on(`click`, function (event) {
