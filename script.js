@@ -84,18 +84,24 @@ function dailyWeather (response) {
     let date = $(`<p>`);
     let icon = $(`<img>`)
 
-    today.append(mainCard)
-    mainCard.prepend(title)
-    title.append(temp);
-    title.append(wind);
-    title.append(humidity);
-
-    forecast.append(dailyCard)
-
-
-
+    today.append(mainCard);
+    mainCard.prepend(title);
+    title.append(date);
+    title.append(icon);
+    mainCard.append(temp);
+    mainCard.append(wind);
+    mainCard.append(humidity);
     mainCard.attr({id: `mainCard`})
+
+    forecast.append(dailyCard);
+    dailyCard.prepend(date);
+    dailyCard.append(icon);
+    dailyCard.append(temp);
+    dailyCard.append(wind);
+    dailyCard.append(humidity);
     dailyCard.attr({"class": `card`});
+
+
 
 
 }
