@@ -4,7 +4,7 @@ const searchBtn = $(`#search-button`);
 const limit = `&limit=1`;
 const history = $(`#history`);
 const today = $(`#today`);
-const forecast = $(`forecast`)
+const forecast = $(`#forecast`)
 let buttons = $(`.btn`);
 
 
@@ -43,16 +43,15 @@ function searchWeather(cityName) {
             locationName.attr(`class`, `btn`);
             locationName.text(response.city.name);
             history.prepend(locationName);
-            console.log(response.list)
+            console.log(response)
 
             let tempData = (JSON.stringify(response.list[0].main.temp));
             let windData = response.list[0].wind.speed;
             let humidityData = response.list[0].main.humidity;
-            let dateNow = moment()._d;
+            let dateNow = moment().format('YYYY/MM/DD hh:mm:ss');
             let iconsrc = response.list[0].weather[0].icon;
             let mainIcon = (`http://openweathermap.org/img/wn/` + iconsrc + `@2x.png`)
             let dailyIcon = (`http://openweathermap.org/img/wn/` + iconsrc + `.png`)
-
             locationName.on(`click`, function dailyWeather() {
                 // function to create cards and match callback data to variables
                 let dailyCard = $(`<div>`);
@@ -65,18 +64,13 @@ function searchWeather(cityName) {
                 let iconMain = $(`<img>`)
                 let iconDaily = $(`<img>`)
 
-                title.text(response.city.name + (JSON.stringify(date)));
-                temp.text(JSON.stringify(tempData));
+                title = (response.city.name, date, iconMain);
+                temp.text(tempData);
                 wind.text(windData);
                 humidity.text(humidityData);
-                date.text(dateNow);
+                date = dateNow;
                 iconMain.attr({ src: mainIcon });
                 iconDaily.attr({ src: dailyIcon });
-
-                // today.append(mainCard); 
-                // mainCard.prepend(title);
-                // title.append(date);
-                // title.append(iconMain);
 
                 today.prepend(title)
                 today.append(date)
@@ -85,22 +79,12 @@ function searchWeather(cityName) {
                 today.append(wind)
                 today.append(humidity)
 
-                // mainCard.append(temp);
-                // mainCard.append(wind);
-                // mainCard.append(humidity);
-                // mainCard.attr({ id: `mainCard` })
-
-
-
-                forecast.append(dailyCard);
+                forecast.append(dailyCard)
                 dailyCard.prepend(date);
                 dailyCard.append(iconDaily);
                 dailyCard.append(temp);
                 dailyCard.append(wind);
                 dailyCard.append(humidity);
-                dailyCard.attr({ "class": `card` });
-                console.log(JSON.stringify(tempData));
-                console.log(JSON.parse(tempData))
             });
         })
     });
