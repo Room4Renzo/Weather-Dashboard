@@ -36,13 +36,14 @@ function searchWeather(cityName) {
             url: geoURL,
             method: `GET`
         }).then(function (response) {
+
             console.log(response);
             userSearch.push(cityName);
             let locationName = $(`<button>`);
-
             locationName.attr(`class`, `btn`);
             locationName.text(cityName);
             locationName.on(`click`, function (event) {
+
                 console.log(event.target.textContent);
                 let historyGeoURL = (`https://api.openweathermap.org/geo/1.0/direct?q=` + (event.target.textContent) + limit + `&appid=` + APIKey);
 
@@ -60,8 +61,12 @@ function searchWeather(cityName) {
                         url:historyForecastURL,
                         method: `GET`
                     }).then(function(response){
-                        console.log(response)
                         dailyWeather(response);
+                        let temp = response.list[0].main.temp
+                        let wind = response.list[0].wind.speed
+                        let humidity = response.list[0].main.humidity
+                        let date = moment()
+                        let iconsrc = response.list[0].weather[0].icon
                     });
                 });
             });
@@ -105,11 +110,6 @@ function dailyWeather (response) {
 
 
 }
-
-// check jquery docs for whether you can add more parameters in .text() method
-// append daILY TO TODAY
-// Append 5 day to forecast
-
 
 // searchBtn.on(`click`, function (event) {
 // event.preventDefault();
