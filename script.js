@@ -48,13 +48,13 @@ function searchWeather(cityName) {
             let tempData = (JSON.stringify(response.list[0].main.temp));
             let windData = response.list[0].wind.speed;
             let humidityData = response.list[0].main.humidity;
-            let dateNow = moment().format('YYYY/MM/DD hh:mm:ss');
+            let dateNow = moment().format('DD/MM/YYYY');
             let iconsrc = response.list[0].weather[0].icon;
-            let mainIcon = (`http://openweathermap.org/img/wn/` + iconsrc + `@2x.png`)
+            let mainIcon = (`http://openweathermap.org/img/wn/` + iconsrc + `.png`)
             let dailyIcon = (`http://openweathermap.org/img/wn/` + iconsrc + `.png`)
             locationName.on(`click`, function dailyWeather() {
                 // function to create cards and match callback data to variables
-                let dailyCard = $(`<div>`);
+                // let dailyCard = $(`<div>`);
                 // let mainCard = $(`<div>`)
                 let title = $(`<h1>`)
                 let temp = $(`<p>`);
@@ -65,8 +65,8 @@ function searchWeather(cityName) {
                 let iconDaily = $(`<img>`)
 
                 title = (response.city.name, date, iconMain);
-                temp.text(tempData);
-                wind.text(windData);
+                temp.text(`Temp:`, tempData, `°C`);
+                wind.text(`Wind:`, windData);
                 humidity.text(humidityData);
                 date = dateNow;
                 iconMain.attr({ src: mainIcon });
@@ -79,12 +79,16 @@ function searchWeather(cityName) {
                 today.append(wind)
                 today.append(humidity)
 
-                forecast.append(dailyCard)
-                dailyCard.prepend(date);
-                dailyCard.append(iconDaily);
-                dailyCard.append(temp);
-                dailyCard.append(wind);
-                dailyCard.append(humidity);
+                for (let i = 0; i < 5; i++) {
+
+
+                    // forecast.append(dailyCard + i)
+                    (daily-card, i).prepend(date);
+                    (daily-card + i).append(iconDaily);
+                    (daily-card + i).append(temp);
+                    (daily-card + i).append(wind);
+                    (daily-card + i).append(humidity);
+                }
             });
         })
     });
