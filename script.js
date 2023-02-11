@@ -70,8 +70,9 @@ function dailyWeather(response){
     }
     
     function showForecast(response){
+        let x = 1;
+        console.log(response)
         for(let i=5; i < response.list.length; i+=8){
-            let x = 1;
     
             let temp = $(`<p>`)
             let wind = $(`<p>`)
@@ -87,7 +88,7 @@ function dailyWeather(response){
             humidity = (response.list[i].main.humidity)
             date = response.list[i].dt_txt;
     
-            dailyCard = (`#daily-card` + x);
+            dailyCard = $(`#daily-card`+ x);
             dailyCard.append(date);
             dailyCard.append(dailyIcon);
             dailyCard.append(temp);
