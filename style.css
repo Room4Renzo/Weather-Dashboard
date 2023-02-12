@@ -1,3 +1,46 @@
-.col {
-    display:inline;
+/* #daily-card1, 
+#daily-card2, 
+#daily-card3, 
+#daily-card4, 
+#daily-card5 {
+    display: inline;
+    flex-direction: row;
+    width: 10%;
+
+} */
+
+#main-div {
+    display: grid;
+    grid-template-areas: {
+        "sd td td td td td"
+        "sd dc1 dc2 dc3 dc4 dc5";
+    };
+}
+
+#search-div {
+    grid-area: sd;
+}
+
+#today {
+    grid-area: td;
+}
+
+#dailycard1 {
+    grid-area: dc1;
+}
+
+#dailycard2 {
+    grid-area: dc2;
+}
+
+#dailycard3 {
+    grid-area: dc3;
+}
+
+#dailycard4 {
+    grid-area: dc4;
+}
+
+#dailycard5 {
+    grid-area: dc5;
 }
