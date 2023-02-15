@@ -36,26 +36,25 @@ function renderButton(response){
     })
 }
 function dailyWeather(response){
+    // function to create cards and match callback data to variables
+    let title = $(`<h1>`)
+    let temp = $(`<p>`);
+    let wind = $(`<p>`);
+    let humidity = $(`<p>`);
+    let date = $(`<p>`);
+    let iconMain = $(`<img>`)
+    
     let tempData = (JSON.stringify(response.list[0].main.temp));
     let windData = response.list[0].wind.speed;
     let humidityData = response.list[0].main.humidity;
     let dateNow = moment().format('DD/MM/YYYY');
     let iconsrc = response.list[0].weather[0].icon;
     let mainIcon = (`http://openweathermap.org/img/wn/` + iconsrc + `.png`)
-        // function to create cards and match callback data to variables
-        // let dailyCard = $(`<div>`);
-        // let mainCard = $(`<div>`)
-        let title = $(`<h1>`)
-        let temp = $(`<p>`);
-        let wind = $(`<p>`);
-        let humidity = $(`<p>`);
-        let date = $(`<p>`);
-        let iconMain = $(`<img>`)
 
         title = (response.city.name, date, iconMain);
-        temp.text(`Temp:`, tempData, `°C`);
-        wind.text(`Wind:`, windData);
-        humidity.text(humidityData);
+        temp.text(`Temp: ` + tempData + `°F`);
+        wind.text(`Wind: ` + windData + ` mph`);
+        humidity.text(`Humidity: ` + humidityData + `%`);
         date = dateNow;
         iconMain.attr({ src: mainIcon });
         const today = $(`#today`);
@@ -69,11 +68,46 @@ function dailyWeather(response){
         today.append(humidity)
     }
     
-    function showForecast(response){
-        let x = 1;
-        console.log(response)
-        for(let i=5; i < response.list.length; i+=8){
     
+    function searchWeather(cityName) {
+        let geoURL = (`https://api.openweathermap.org/geo/1.0/direct?q=` + cityName + limit + `&appid=` + APIKey);
+        $.ajax({
+            url: geoURL,
+            method: `GET`
+        }).then(function (response) {
+            let lat = response[0].lat;
+            let lon = response[0].lon;
+            localStorage.setItem(`lat`, lat);
+            localStorage.setItem(`lon`, lon);
+            let forecastURL = (`https://api.openweathermap.org/data/2.5/forecast?lat=` + lat + `&lon=` + lon + `&appid=` + APIKey);
+            $.ajax({
+                url: forecastURL,
+                method: `GET`
+            }).then(function (response) {
+                renderButton(response)
+                dailyWeather(response)
+                showForecast(response)
+                
+                
+            });
+        })
+    }
+    
+    function showForecast(response){
+        console.log(response)
+        var startingIndex;
+        for(let i=0; i< response.list.length; i++){
+            var time = response.list[i].dt_txt.split(" ")[1]
+            var hour = time.split(":")[0]
+            console.log(time)
+            if(hour == 12){
+                startingIndex = i
+                break
+            }
+        }
+        console.log(startingIndex)
+        let x = 1;
+        for(let i=startingIndex; i < response.list.length; i+=8){
             let temp = $(`<p>`)
             let wind = $(`<p>`)
             let humidity = $(`<p>`)
@@ -81,14 +115,16 @@ function dailyWeather(response){
             let dailyIcon = $(`<img>`)
             
             let iconsrc = response.list[i].weather[0].icon;
-            dailyIcon = (`http://openweathermap.org/img/wn/` + iconsrc + `.png`)
-    
-            temp = (`Temp:`, response.list[i].main.temp);
-            wind = (response.list[i].wind.speed)
-            humidity = (response.list[i].main.humidity)
-            date = response.list[i].dt_txt;
-    
+            iconDaily = (`https://openweathermap.org/img/wn/` + iconsrc + `.png`)
+            dailyIcon.attr({ src: iconDaily });
+
+            temp.text(`Temp: ` +  response.list[i].main.temp + `°F`);
+            wind.text(`Wind: ` +  response.list[i].wind.speed + ` mph`)
+            humidity.text(`Humidity: ` +  response.list[i].main.humidity + `%`)
+            date.text(moment().add(x,`days`).format(`DD/MM/YYYY`))
+            
             dailyCard = $(`#daily-card`+ x);
+            dailyCard.empty()
             dailyCard.append(date);
             dailyCard.append(dailyIcon);
             dailyCard.append(temp);
@@ -99,35 +135,6 @@ function dailyWeather(response){
         } 
     }
     
-function searchWeather(cityName) {
-    let geoURL = (`https://api.openweathermap.org/geo/1.0/direct?q=` + cityName + limit + `&appid=` + APIKey);
-    $.ajax({
-        url: geoURL,
-        method: `GET`
-    }).then(function (response) {
-        console.log("First call using city")
-        console.log(response)
-        let lat = response[0].lat;
-        let lon = response[0].lon;
-        localStorage.setItem(`lat`, lat);
-        localStorage.setItem(`lon`, lon);
-        let forecastURL = (`https://api.openweathermap.org/data/2.5/forecast?lat=` + lat + `&lon=` + lon + `&appid=` + APIKey);
-        $.ajax({
-            url: forecastURL,
-            method: `GET`
-        }).then(function (response) {
-            console.log("Call with all of the data")
-            console.log(response)
-            renderButton(response)
-            dailyWeather(response)
-            showForecast(response)
-
-                
-        });
-        })
-    }
-
-
 
 
 //     let lat = response[0].lat;
