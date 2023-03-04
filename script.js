@@ -3,24 +3,23 @@ localStorage.setItem(`APIKey`, APIKey);
 const searchBtn = $(`#search-button`);
 const limit = `&limit=1`;
 const history = $(`#history`);
+const weatherToday = $(`.weather-today`)
 const forecast = $(`#forecast`)
-let buttons = $(`.btn`);
+const buttons = $(`.btn`);
 
 
 let userSearch = [];
 let i = localStorage.getItem(`i`)
 let locationName = $(userSearch[i]);
-// TODO: prevent same city button from being created
 let searchBtnCounter = 0;
 
-// On search enter || click prevent default (refresh), store search value in variable called cityName, add it and globally defined variables to geo API call. Store lat and lon in their own variables
 searchBtn.on(`click`, function (event) {
+    weatherToday.removeClass(`hide`)
     event.preventDefault();
     const searchValue = $(`#search-input`);
     searchWeather(searchValue.val());
 });
 
-//Isolate the path in the object that shows the weather for the same day
 function renderButton(response){
     if(userSearch.includes(response.city.name)){
         return
@@ -131,92 +130,6 @@ function dailyWeather(response){
             dailyCard.append(wind);
             dailyCard.append(humidity);
             x++;
-            //Create all of your divs, set up the content, and append it where you wnat to append it
         } 
     }
     
-
-
-//     let lat = response[0].lat;
-//     let lon = response[0].lon;
-
-//     let historyForecastURL = (`https://api.openweathermap.org/data/2.5/forecast?lat=` + lat + `&lon=` + lon + `&appid=` + APIKey);
-
-//     buttons.on(`click`, function (event) {
-//         event.preventDefault
-//         dailyWeather()
-
-//         $.ajax({
-//             url: historyForecastURL,
-//             method: `GET`
-//         }).then(function (response) {
-//             
-//             dailyWeather(response);
-
-//         });
-//     });
-// });
-
-
-// searchBtn.on(`click`, function (event) {
-// event.preventDefault();
-// let searchTerm = searchValue.val();
-
-// let geoURL = (`https://api.openweathermap.org/geo/1.0/direct?q=` + searchTerm + limit + `&appid=` + APIKey);
-
-
-// $.ajax({
-//     url: geoURL,
-//     method: `GET`
-// }).then(function (response) {
-//     let locationData = (JSON.stringify(response));
-//     localStorage.setItem(`locationData`, locationData)
-//     searchBtnCounter++;
-//     console.log(response);
-//     console.log(response[0].lat);
-//     console.log(response[0].lon);
-//     let lat = response[0].lat;
-//     let lon = response[0].lon;
-
-
-//     let forecastURL = (`https://api.openweathermap.org/data/2.5/forecast?lat=` + lat + `&lon=` + lon + `&appid=` + APIKey);
-
-//     $.ajax({
-//         url: forecastURL,
-//         method: `GET`
-//     }).then(function (response) {
-        // console.log(response);
-
-
-
-
-
-
-
-        // if (searchBtnCounter !== 0) {
-        //     $(`#placeholderWeather`).empty();
-        // };
-
-        // push user input into usersearch array
-        //TODO: search push function to push all searched cities to the end of the userSearch array
-        // TODO: Find out how to push 2d arrays
-
-        // Creates button and changes button text
-        // locationName = $(`<button>`);
-        // locationName.attr(`class`, `btn`);
-        // locationName.attr(`name`, response[0].name);
-        // locationName.attr(`lat`, response[0].lat);
-        // locationName.attr(`lon`, response[0].lon);
-        // locationName.text(response[0].name + `, ` + response[0].country);
-        // locationName.on(`click`, function (event) {
-        //     console.log(event);
-        //     console.log(event.target);
-        // })
-        // history.prepend(locationName);
-
-//     });
-// });
-    // userSearch.forEach(function (singleSearch) {
-    //     console.log(singleSearch);
-
-

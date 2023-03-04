@@ -1,6 +1,8 @@
 #history button {
     background-color: lightgrey;
     color: black;
+    border: 2px solid #555555;
+    margin-top: 4px;
 }
 
 #daily-card1, 
@@ -9,4 +11,20 @@
 #daily-card4, 
 #daily-card5 {
     background-color: skyblue;
+    border: 2px solid #555555;
+    border-radius: 5%;
 }
+
+#today {
+    background-color: blue;
+    border: 2px solid #555555;
+    border-radius: 2%;
+    color: white;
+}
+
+.hide {
+    display: none;
+}
+
+
+
