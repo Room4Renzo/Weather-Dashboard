@@ -10,20 +10,30 @@
 #daily-card3, 
 #daily-card4, 
 #daily-card5 {
-    background-color: skyblue;
+    background-color: blue;
     border: 2px solid #555555;
+    color: white;
     border-radius: 5%;
 }
 
 #today {
-    background-color: blue;
+    background-color: lightblue;
     border: 2px solid #555555;
     border-radius: 2%;
-    color: white;
+    color: black;
 }
 
 .hide {
     display: none;
+}
+
+
+header {
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 30px;
 }
 
 
